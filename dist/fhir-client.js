@@ -75,7 +75,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                dataType: "json",
 	                contentType: "application/json",
 	                data: args.data || args.params,
-	                withCredentials: args.credentials === 'include',
+	                xhrFields: {
+                    withCredentials: args.credentials === 'include'
+                  }
 	            };
 	            jquery.ajax(opts)
 	                .done(function(data, status, xhr) {ret.resolve({data: data, status: status, headers: xhr.getResponseHeader, config: args});})
@@ -16857,7 +16859,10 @@ module.exports = function jwa(algorithm) {
                 url: args.url,
                 dataType: args.dataType || "json",
                 headers: args.headers || {},
-                data: args.data
+                data: args.data,
+                xhrFields: {
+                  withCredentials: args.credentials === 'include'
+                }
             };
             jquery.ajax(opts)
                 .done(ret.resolve)

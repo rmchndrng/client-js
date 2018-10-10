@@ -162,6 +162,11 @@ function completeTokenRefreshFlow() {
   var state = JSON.parse(sessionStorage[tokenResponse.state]);
   var refresh_token = tokenResponse.refresh_token;
 
+  var headers = {};
+  if (state.client.secret) {
+    headers['Authorization'] = 'Basic ' + btoa(state.client.client_id + ':' + state.client.secret);
+  }
+
   Adapter.get().http({
     method: 'POST',
     url: state.provider.oauth2.token_uri,
@@ -169,6 +174,8 @@ function completeTokenRefreshFlow() {
       grant_type: 'refresh_token',
       refresh_token: refresh_token
     },
+    headers: headers,
+    credentials:'include'
   }).then(function(authz) {
     authz = $.extend(tokenResponse, authz);
     ret.resolve(authz);

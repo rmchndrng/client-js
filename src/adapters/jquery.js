@@ -96,7 +96,10 @@
                 url: args.url,
                 dataType: args.dataType || "json",
                 headers: args.headers || {},
-                data: args.data
+                data: args.data,
+                xhrFields: {
+                    withCredentials: args.credentials === 'include'
+                }
             };
             jquery.ajax(opts)
                 .done(ret.resolve)
